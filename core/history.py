@@ -10,11 +10,11 @@ DEFAULT_DB_PATH = Path("pipeforge.db")
 
 
 class RunHistory:
-    def __init__(self, db_path: Path = DEFAULT_DB_PATH):
+    def __init__(self, db_path: Path = DEFAULT_DB_PATH, persistent: bool = False):
         self.db_path = db_path
         self._memory_conn: Optional[sqlite3.Connection] = None
-        if str(db_path) == ":memory:":
-            self._memory_conn = sqlite3.connect(":memory:")
+        if str(db_path) == ":memory:" or persistent:
+            self._memory_conn = sqlite3.connect(str(db_path))
         self._init_db()
     def _init_db(self) -> None:
         with self._conn() as conn:
