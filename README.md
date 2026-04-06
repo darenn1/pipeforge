@@ -9,7 +9,7 @@ python cli.py run pipelines/example.yaml
 
 ### Data flow
 
-![pipeforge diagram](assets/Pipeforge System Architecture Diagram.jpg)
+![pipeforge diagram](assets/Pipeforge_System_Architecture_Diagram.jpg)
 
 Records flow as a **lazy generator chain** — one record at a time, never fully loaded into memory. A 10 GB CSV and a 100-row CSV use the same amount of RAM.
 
