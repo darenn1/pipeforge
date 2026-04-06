@@ -17,6 +17,7 @@ class JSONFileLoader(Loader):
         mode = self.config.get("mode", "array")
         indent = self.config.get("indent")
         append = self.config.get("append", False)
+        path.parent.mkdir(parents=True, exist_ok=True)
 
         count = 0
         if mode == "ndjson":
@@ -42,6 +43,8 @@ class SQLiteLoader(Loader):
         batch_size = self.config.get("batch_size", 500)
         conflict = self.config.get("conflict", "replace").upper()
         primary_key = self.config.get("primary_key")
+
+        Path(path).parent.mkdir(parents=True, exist_ok=True)
 
         conn = sqlite3.connect(path)
         try:
@@ -109,6 +112,7 @@ class CSVLoader(Loader):
         path = Path(self.config["path"])
         delimiter = self.config.get("delimiter", ",")
         append = self.config.get("append", False)
+        Path(path).parent.mkdir(parents=True, exist_ok=True)
 
         count = 0
         fieldnames: list[str] = []

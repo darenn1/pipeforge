@@ -1,0 +1,52 @@
+name: user_ingest
+ 
+extractor:
+  class: CSVExtractor
+  config:
+    path: data/users.csv
+    encoding: utf-8
+ 
+# Chain of transformers applied left-to-right (top-to-bottom)
+transformers:
+  - class: FilterTransformer
+    config:
+      rules:
+        - {field: status,  op: eq,  value: active}
+        - {field: email,   op: exists, value: null}
+ 
+  - class: RenameTransformer
+    config:
+      mapping:
+        user_id: id
+        full_name: name
+ 
+  - class: CastTransformer
+    config:
+      casts:
+        age: int
+        score: float
+ 
+  - class: AddFieldTransformer
+    config:
+      fields:
+        source: user_ingest_v1
+        pipeline: pipeforge
+ 
+  - class: DropFieldTransformer
+    config:
+      fields: [internal_notes, raw_password]
+ 
+loader:
+  class: SQLiteLoader
+  config:
+    path: data/output.db
+    table: users
+    primary_key: id
+    conflict: replace
+    batch_size: 500
+ 
+retry:
+  max_attempts: 3
+  base_delay_s: 2.0
+  backoff_factor: 2.0
+ 

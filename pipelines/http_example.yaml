@@ -1,0 +1,39 @@
+name: api_ingest
+ 
+extractor:
+  class: HTTPExtractor
+  config:
+    url: https://jsonplaceholder.typicode.com/posts
+    pagination: none       
+    timeout_s: 10
+    max_retries: 3
+    retry_delay_s: 1.0
+ 
+transformers:
+  - class: FilterTransformer
+    config:
+      rules:
+        - {field: userId, op: lte, value: 3}   
+ 
+  - class: AddFieldTransformer
+    config:
+      fields:
+        source: jsonplaceholder
+ 
+  - class: DropFieldTransformer
+    config:
+      fields: [body]
+ 
+loader:
+  class: SQLiteLoader
+  config:
+    path: data/posts.db
+    table: posts
+    primary_key: id
+    conflict: replace
+ 
+retry:
+  max_attempts: 3
+  base_delay_s: 1.0
+  backoff_factor: 2.0
+ 
