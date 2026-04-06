@@ -2,10 +2,7 @@
 
 A lightweight, modular ETL pipeline runner. Pipelines are defined as YAML config, executed with retry logic, and every run is logged to a local SQLite history store.
 
-```
-python cli.py run pipelines/example.yaml
-```
-
+---
 
 ### Data flow
 
@@ -34,6 +31,8 @@ python cli.py history
 #5 show this help message and exit
 python cli.py --help
 ```
+
+---
 
 ## Troubleshooting
 
