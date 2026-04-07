@@ -16,7 +16,7 @@ Records flow as a **lazy generator chain** — one record at a time, never fully
 
 ```bash
 # 1. Clone and enter
-git clone https://github.com/yourname/pipeforge.git
+git clone https://github.com/darenn1/pipeforge.git
 cd pipeforge
 
 # 2. Install dependencies
